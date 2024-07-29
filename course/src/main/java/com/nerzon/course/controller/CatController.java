@@ -10,10 +10,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
-@Tag(name="main methods")
+@Tag(name = "main methods")
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -21,18 +22,16 @@ public class CatController {
     private final ObjectMapper objectMapper;
 
     private final CatRepo catRepo;
-@Operation(summary="кладет нового котика в базу",
-description = "Получает DTO кота и билдером собирает и сохраняет сущность в базу")
+
+    @Operation(summary = "кладет нового котика в базу",
+            description = "Получает DTO кота и билдером собирает и сохраняет сущность в базу")
     @PostMapping("/api/add")
-    public void addCat(@RequestBody CatDTO catDTO) {
-        log.info(
-                "New row:" + catRepo.save(
-                        Cat.builder()
-                                .age(catDTO.getAge())
-                                .name(catDTO.getName())
-                                .weight(catDTO.getWeight())
-                                .build())
-        );
+    public Cat addCat(@RequestBody CatDTO catDTO) {
+        return catRepo.save(Cat.builder()
+                .age(catDTO.getAge())
+                .name(catDTO.getName())
+                .weight(catDTO.getWeight())
+                .build());
     }
 
     @PutMapping("/api/add")
